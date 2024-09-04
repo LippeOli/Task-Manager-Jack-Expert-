@@ -1,17 +1,19 @@
 import { Router } from 'express';
-import User from './app/models/User';
 
+import authMiddleware from './app/middlewares/auth'
+
+import UserController from './app/controllers/UserController';
+import SessionController from './app/controllers/SessionController';
 
 const routes = new Router();
+ 
+routes.post('/users', UserController.store);
 
-routes.get('/teste', async (req, res) => {
-    const user = await User.create({
-        name: 'Felipe',
-        email: 'lippe0909@felipe.com',
-        password_hash: '123123',
-    });
+routes.post('/sessions', SessionController.store);
 
-    return res.json(user);
-});
+
+//Todas as rotas abaixo terão que ter autenticacao token
+routes.use(authMiddleware);
+routes.put('/users', UserController.update);
 
 export default routes;
