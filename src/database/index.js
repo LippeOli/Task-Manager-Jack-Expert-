@@ -2,8 +2,9 @@ import Sequelize, { Model }  from "sequelize";
 import databaseCOnfig from '../config/database'
 
 import User from "../app/models/User";
+import Task from "../app/models/Task";
 
-const models = [User];
+const models = [User, Task];
 
 class Database {
 
@@ -17,7 +18,9 @@ class Database {
         this.connection = new Sequelize(databaseCOnfig);
 
         //percorro o model atual e levo ela para a conex BD
-        models.map(model => model.init(this.connection));
+        models
+            .map(model => model.init(this.connection))
+            .map(model => model.associate && model.associate(this.connection.models));
     }
 }
 

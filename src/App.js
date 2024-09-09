@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import routes from './routes';
 
 //importando database
@@ -15,6 +16,7 @@ class App{
 
     //meio do caminho informando que usa JSON
     middlewares(){
+        this.server.use(cors());
         this.server.use(express.json());
     }
 
